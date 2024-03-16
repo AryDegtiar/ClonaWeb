@@ -4,8 +4,14 @@ import requests
 from urllib.parse import urlparse, urljoin, unquote
 
 
-def descargar_pagina(url):
+def descargar_pagina(url, proxy=None):
     try:
+        # Configurar el proxy si se proporciona
+        if proxy:
+            response = requests.get(url, proxies=proxy, timeout=15)
+        else:
+            response = requests.get(url)
+        
         # Realizar la solicitud GET a la URL
         response = requests.get(url)
         
@@ -76,14 +82,24 @@ def descargar_recurso(url_recurso, ruta_descarga):
 
 # Solicitar al usuario la URL de la página web a descargar
 url_pagina = input("Por favor, ingresa la URL de la pagina web que deseas descargar: ")
+#url_pagina = "https://www.whatanicedaytobrowse.com/24QSBG/NFJT1XF/?source_id{affiliate_id}&sub1={transaction_id}"
 
 # Solicitar al usuario la ruta donde desea descargar los archivos
 ruta_descarga = input("Por favor, ingresa la ruta donde deseas descargar los archivos: ")
+#ruta_descarga = "./pagina_descargada"
 
+'''
+#proxy_url = "http://170.64.222.86:8000"  # Configura tu proxy aquí
+proxy_url = "103.131.232.11:8080"
+proxy = {
+    "http": proxy_url,
+    "https": proxy_url
+}'''
 
 # Llamar a la función para descargar la página
+#html_pagina = descargar_pagina(url_pagina, proxy)
 html_pagina = descargar_pagina(url_pagina)
-
+                               
 # Verificar si se descargó correctamente y descargar los recursos asociados
 if html_pagina:
     # Extraer la URL base de la página para construir URL absolutas
